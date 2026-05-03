@@ -1,295 +1,474 @@
 'use strict';
 
-// ──────────────────────────────────────────────────────────
-// PHRASE DATABASE
-// Each phrase has 3 quiz modes: fill | choice | swap
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
+// PHRASE DATABASE — one phrase studied for 5 minutes
+// ─────────────────────────────────────────────────────────
 const PHRASES = [
-  // ── Work & Projects ──
   {
-    phrase: "I'm currently working on a new design",
-    verb: "working", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm currently ___ on a new design", correct: "working", wrong: ["work","worked","works"] },
-    choice: { correct: 0, options: ["I'm currently working on a new design","I'm current working on a new design","I'm currently working in a new design","I currently working on a new design"] },
-    swap:   { correct: 0, options: ["focusing","studied","ran","develop"] }
+    phrase: "I'm looking forward to it",
+    translation: "🇧🇷 Estou ansioso / animado com isso",
+    category: "Feelings",
+    tip: "Use when you feel <strong>excited or positive</strong> about something that's coming up soon.",
+    fillSentence: "I'm ___ forward to it",
+    fillAnswer: "looking",
+    fillOptions: ["looking","look","looked","looks"],
+    choiceCorrect: 0,
+    choiceOptions: ["I'm looking forward to it","I'm looking forward for it","I look forward to it right now","I'm looked forward to it"],
+    swapHighlight: "looking forward",
+    swapCorrect: 1,
+    swapOptions: ["running away from","excited about","forgetting about","worried about"],
+    dialogue: [
+      { who: "A", text: "The trip is this weekend!" },
+      { who: "B", text: "I know! I'm looking forward to it.", highlight: "looking forward to it" },
+      { who: "A", text: "Same — I can barely wait." }
+    ],
+    similar: ["I can't wait for it", "I'm so excited about it", "I'm counting down the days"],
+    examples: ["I'm looking forward to the holidays.", "I'm looking forward to meeting you.", "I'm looking forward to hearing from you."],
+    words: ["I'm","looking","forward","to","it"]
   },
   {
-    phrase: "I'm putting together a proposal for the client",
-    verb: "putting together", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ a proposal for the client", correct: "putting together", wrong: ["put together","puts together","putting apart"] },
-    choice: { correct: 2, options: ["I'm put together a proposal for the client","I putting together a proposal for the client","I'm putting together a proposal for the client","I've putting together a proposal for the client"] },
-    swap:   { correct: 1, options: ["ran","preparing","putted","goes"] }
+    phrase: "Could you do me a favor?",
+    translation: "🇧🇷 Você poderia me fazer um favor?",
+    category: "Requests",
+    tip: "A <strong>polite and common</strong> way to ask someone for help with something.",
+    fillSentence: "Could you ___ me a favor?",
+    fillAnswer: "do",
+    fillOptions: ["do","doing","did","does"],
+    choiceCorrect: 2,
+    choiceOptions: ["Could you doing me a favor?","Could you did me a favor?","Could you do me a favor?","Could you does me a favor?"],
+    swapHighlight: "do me a favor",
+    swapCorrect: 0,
+    swapOptions: ["help me out","ignore me","leave me alone","forget it"],
+    dialogue: [
+      { who: "A", text: "Hey, could you do me a favor?", highlight: "do me a favor" },
+      { who: "B", text: "Of course! What do you need?" },
+      { who: "A", text: "Can you grab my bag from the car?" }
+    ],
+    similar: ["Can you help me out?", "Would you mind helping me?", "I need a small favor"],
+    examples: ["Could you do me a favor and close the window?", "Could you do me a favor and call them back?", "Could you do me a favor and check this for me?"],
+    words: ["Could","you","do","me","a","favor?"]
   },
   {
-    phrase: "I'm building a prototype to test the user flow",
-    verb: "building", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ a prototype to test the user flow", correct: "building", wrong: ["build","built","builds"] },
-    choice: { correct: 3, options: ["I'm builded a prototype to test the user flow","I build a prototype right now","I'm builds a prototype to test the user flow","I'm building a prototype to test the user flow"] },
-    swap:   { correct: 0, options: ["creating","ran","past","studied"] }
+    phrase: "It's been a long day",
+    translation: "🇧🇷 Foi um dia longo / cansativo",
+    category: "Everyday",
+    tip: "Use when you're <strong>tired</strong> after a difficult or very busy day.",
+    fillSentence: "It's ___ a long day",
+    fillAnswer: "been",
+    fillOptions: ["been","be","being","was"],
+    choiceCorrect: 1,
+    choiceOptions: ["It's be a long day","It's been a long day","It's being a long day","It was been a long day"],
+    swapHighlight: "long",
+    swapCorrect: 0,
+    swapOptions: ["rough","quick","fun","short"],
+    dialogue: [
+      { who: "A", text: "You look tired. Are you okay?" },
+      { who: "B", text: "Yeah, it's been a long day. I'm exhausted.", highlight: "long day" },
+      { who: "A", text: "Go rest. You deserve it." }
+    ],
+    similar: ["I'm exhausted", "I'm worn out", "What a day!"],
+    examples: ["It's been a long day at work.", "It's been a long day — I need to sleep.", "It's been a long day, but it was worth it."],
+    words: ["It's","been","a","long","day"]
   },
   {
-    phrase: "I'm handling three different projects this week",
-    verb: "handling", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ three different projects this week", correct: "handling", wrong: ["handle","handled","handles"] },
-    choice: { correct: 0, options: ["I'm handling three different projects this week","I'm handle three different projects this week","I handled three projects right now","I'm handles three different projects this week"] },
-    swap:   { correct: 2, options: ["broke","failed","managing","slept"] }
+    phrase: "I'll get back to you on that",
+    translation: "🇧🇷 Eu te respondo sobre isso / Vou retornar",
+    category: "Communication",
+    tip: "Use when you <strong>need time</strong> to think or check something before answering.",
+    fillSentence: "I'll get ___ to you on that",
+    fillAnswer: "back",
+    fillOptions: ["back","out","up","in"],
+    choiceCorrect: 3,
+    choiceOptions: ["I'll get back for you on that","I'll got back to you on that","I'll get back to you in that","I'll get back to you on that"],
+    swapHighlight: "get back to you",
+    swapCorrect: 2,
+    swapOptions: ["forget about it","ignore you","follow up with you","leave you"],
+    dialogue: [
+      { who: "A", text: "Can we increase the budget for this?" },
+      { who: "B", text: "I'll get back to you on that — I need to check first.", highlight: "get back to you on that" },
+      { who: "A", text: "No problem, take your time." }
+    ],
+    similar: ["I'll follow up on that", "Let me check and come back to you", "I'll get you an answer soon"],
+    examples: ["I'll get back to you on that by tomorrow.", "I'll get back to you on that after the meeting.", "I'll get back to you on that once I have more info."],
+    words: ["I'll","get","back","to","you","on","that"]
   },
   {
-    phrase: "I'm reviewing the feedback from yesterday's meeting",
-    verb: "reviewing", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ the feedback from yesterday's meeting", correct: "reviewing", wrong: ["review","reviewed","reviews"] },
-    choice: { correct: 1, options: ["I review the feedback right now","I'm reviewing the feedback from yesterday's meeting","I'm reviewed the feedback from yesterday's meeting","I'm reviews the feedback from yesterday's meeting"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","going through"] }
+    phrase: "Sorry, I didn't catch that",
+    translation: "🇧🇷 Desculpa, não entendi / não ouvi",
+    category: "Communication",
+    tip: "A <strong>polite</strong> way to ask someone to repeat what they just said.",
+    fillSentence: "Sorry, I didn't ___ that",
+    fillAnswer: "catch",
+    fillOptions: ["catch","caught","catching","catches"],
+    choiceCorrect: 0,
+    choiceOptions: ["Sorry, I didn't catch that","Sorry, I don't caught that","Sorry, I didn't catched that","Sorry, I doesn't catch that"],
+    swapHighlight: "catch",
+    swapCorrect: 1,
+    swapOptions: ["ignore","hear","forget","miss on"],
+    dialogue: [
+      { who: "A", text: "The meeting is at half past three, okay?" },
+      { who: "B", text: "Sorry, I didn't catch that. What time?", highlight: "didn't catch that" },
+      { who: "A", text: "Half past three — 3:30." }
+    ],
+    similar: ["Could you repeat that?", "Pardon?", "What was that again?"],
+    examples: ["Sorry, I didn't catch that — could you say it again?", "Sorry, I didn't catch your name.", "Sorry, I didn't catch the last part."],
+    words: ["Sorry,","I","didn't","catch","that"]
   },
   {
-    phrase: "I'm wrapping up the final version of the file",
-    verb: "wrapping up", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ the final version of the file", correct: "wrapping up", wrong: ["wrap up","wrapped up","wraps up"] },
-    choice: { correct: 2, options: ["I wrapping up the final version","I'm wrapped up the final version","I'm wrapping up the final version of the file","I'm wrap up the final version"] },
-    swap:   { correct: 1, options: ["broke","finishing","slept","ran"] }
+    phrase: "Let's call it a day",
+    translation: "🇧🇷 Vamos encerrar por hoje / parar por aqui",
+    category: "Everyday",
+    tip: "Use to suggest <strong>stopping work or an activity</strong> for the day.",
+    fillSentence: "Let's ___ it a day",
+    fillAnswer: "call",
+    fillOptions: ["call","called","calling","calls"],
+    choiceCorrect: 2,
+    choiceOptions: ["Let's calling it a day","Let's called it a day","Let's call it a day","Let's calls it a day"],
+    swapHighlight: "call it a day",
+    swapCorrect: 0,
+    swapOptions: ["wrap up for today","keep going","start over","ignore it"],
+    dialogue: [
+      { who: "A", text: "We've been at this for 6 hours." },
+      { who: "B", text: "I think we should let's call it a day.", highlight: "call it a day" },
+      { who: "A", text: "Agreed. We can pick it up tomorrow." }
+    ],
+    similar: ["Let's wrap it up", "Let's stop for today", "Time to call it quits"],
+    examples: ["It's getting late — let's call it a day.", "We've done enough. Let's call it a day.", "Let's call it a day and rest."],
+    words: ["Let's","call","it","a","day"]
   },
   {
-    phrase: "I'm collaborating with the dev team on this feature",
-    verb: "collaborating", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ with the dev team on this feature", correct: "collaborating", wrong: ["collaborate","collaborated","collaborates"] },
-    choice: { correct: 0, options: ["I'm collaborating with the dev team on this feature","I collaborating with the dev team","I'm collaborate with the dev team","I collaborated right now"] },
-    swap:   { correct: 2, options: ["slept","ran","working","broke"] }
+    phrase: "I'm running a bit late",
+    translation: "🇧🇷 Estou um pouco atrasado",
+    category: "Everyday",
+    tip: "Use to <strong>warn someone</strong> that you won't arrive on time.",
+    fillSentence: "I'm ___ a bit late",
+    fillAnswer: "running",
+    fillOptions: ["running","run","ran","runs"],
+    choiceCorrect: 1,
+    choiceOptions: ["I'm run a bit late","I'm running a bit late","I ran a bit late right now","I'm runs a bit late"],
+    swapHighlight: "running",
+    swapCorrect: 3,
+    swapOptions: ["sleeping","walking quickly","going early","getting"],
+    dialogue: [
+      { who: "A", text: "Where are you? We start in 5 minutes." },
+      { who: "B", text: "I'm running a bit late — traffic is terrible.", highlight: "running a bit late" },
+      { who: "A", text: "Okay, just get here as fast as you can." }
+    ],
+    similar: ["I'll be a few minutes late", "I'm behind schedule", "I'm not going to make it on time"],
+    examples: ["I'm running a bit late — please start without me.", "I'm running a bit late this morning.", "I'm running a bit late but I'm almost there."],
+    words: ["I'm","running","a","bit","late"]
   },
   {
-    phrase: "I'm redesigning the entire onboarding experience",
-    verb: "redesigning", category: "Work & Projects", icon: "💼",
-    fill:   { blank: "I'm ___ the entire onboarding experience", correct: "redesigning", wrong: ["redesign","redesigned","redesigns"] },
-    choice: { correct: 1, options: ["I redesigning the entire onboarding right now","I'm redesigning the entire onboarding experience","I'm redesigned the entire onboarding","I redesign the entire onboarding experience"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","revamping"] }
-  },
-
-  // ── Explaining Actions ──
-  {
-    phrase: "I'm trying to figure out the best approach",
-    verb: "figure out", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm trying to ___ the best approach", correct: "figure out", wrong: ["figure in","figuring out","figured out"] },
-    choice: { correct: 1, options: ["I'm try to figure out the best approach","I'm trying to figure out the best approach","I tried to figure out the best approach right now","I'm trying figure out the best approach"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","determine"] }
-  },
-  {
-    phrase: "I'm looking into different solutions for this",
-    verb: "looking into", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ different solutions for this", correct: "looking into", wrong: ["looking at","looking for","looking through"] },
-    choice: { correct: 2, options: ["I looking into different solutions","I'm looked into different solutions","I'm looking into different solutions for this","I'm looks into different solutions"] },
-    swap:   { correct: 0, options: ["exploring","broke","slept","ran"] }
-  },
-  {
-    phrase: "I'm testing different variations to see what works",
-    verb: "testing", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ different variations to see what works", correct: "testing", wrong: ["test","tested","tests"] },
-    choice: { correct: 0, options: ["I'm testing different variations to see what works","I test different variations right now","I'm tested different variations","I'm tests different variations"] },
-    swap:   { correct: 1, options: ["broke","trying","slept","ran"] }
+    phrase: "What do you think?",
+    translation: "🇧🇷 O que você acha? / O que você pensa?",
+    category: "Opinion",
+    tip: "Use to ask for someone's <strong>opinion or feedback</strong> on something.",
+    fillSentence: "What do you ___?",
+    fillAnswer: "think",
+    fillOptions: ["think","thought","thinking","thinks"],
+    choiceCorrect: 0,
+    choiceOptions: ["What do you think?","What you think?","What do you thought?","What does you think?"],
+    swapHighlight: "think",
+    swapCorrect: 2,
+    swapOptions: ["forget","ignore","reckon","sleep"],
+    dialogue: [
+      { who: "A", text: "I redesigned the logo. Here it is." },
+      { who: "B", text: "It looks great! But what do you think about the colors?", highlight: "what do you think" },
+      { who: "A", text: "I'm happy with it. What do you think overall?" }
+    ],
+    similar: ["What's your opinion?", "How does it look to you?", "What are your thoughts?"],
+    examples: ["What do you think about the new design?", "What do you think we should do?", "What do you think of this idea?"],
+    words: ["What","do","you","think?"]
   },
   {
-    phrase: "I'm gathering references for the visual direction",
-    verb: "gathering", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ references for the visual direction", correct: "gathering", wrong: ["gather","gathered","gathers"] },
-    choice: { correct: 3, options: ["I gathering references","I'm gather references","I'm gathered references","I'm gathering references for the visual direction"] },
-    swap:   { correct: 2, options: ["broke","slept","collecting","ran"] }
+    phrase: "I can't make it",
+    translation: "🇧🇷 Não vou conseguir ir / Não consigo comparecer",
+    category: "Social",
+    tip: "Use to say you're <strong>unable to attend</strong> something or meet someone.",
+    fillSentence: "I can't ___ it",
+    fillAnswer: "make",
+    fillOptions: ["make","made","making","makes"],
+    choiceCorrect: 3,
+    choiceOptions: ["I can't making it","I can't made it","I can't makes it","I can't make it"],
+    swapHighlight: "make it",
+    swapCorrect: 1,
+    swapOptions: ["go there again","attend","forget it","leave"],
+    dialogue: [
+      { who: "A", text: "Are you coming to the dinner tonight?" },
+      { who: "B", text: "I'm sorry, I can't make it. I have plans already.", highlight: "can't make it" },
+      { who: "A", text: "That's a shame. Maybe next time!" }
+    ],
+    similar: ["I won't be able to come", "I have to skip this one", "Count me out"],
+    examples: ["I can't make it to the meeting — can we reschedule?", "I can't make it tonight, sorry.", "I can't make it this weekend."],
+    words: ["I","can't","make","it"]
   },
   {
-    phrase: "I'm reaching out to the client for approval",
-    verb: "reaching out", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ to the client for approval", correct: "reaching out", wrong: ["reach out","reached out","reaches out"] },
-    choice: { correct: 1, options: ["I'm reach out to the client","I'm reaching out to the client for approval","I reaching out to the client","I'm reached out to the client"] },
-    swap:   { correct: 0, options: ["contacting","broke","slept","ran"] }
+    phrase: "I'll take care of it",
+    translation: "🇧🇷 Eu cuido disso / Eu me encarrego disso",
+    category: "Responsibility",
+    tip: "Use to assure someone that <strong>you'll handle</strong> a task or solve a problem.",
+    fillSentence: "I'll take ___ of it",
+    fillAnswer: "care",
+    fillOptions: ["care","cared","caring","cares"],
+    choiceCorrect: 1,
+    choiceOptions: ["I'll take care for it","I'll take care of it","I'll taking care of it","I'll took care of it"],
+    swapHighlight: "take care of it",
+    swapCorrect: 2,
+    swapOptions: ["ignore it","break it","handle it","forget it"],
+    dialogue: [
+      { who: "A", text: "Someone needs to fix this before tomorrow." },
+      { who: "B", text: "Don't worry — I'll take care of it.", highlight: "take care of it" },
+      { who: "A", text: "Great, thank you so much." }
+    ],
+    similar: ["I'll handle it", "Leave it to me", "I've got it covered"],
+    examples: ["I'll take care of it before the deadline.", "I'll take care of it — don't stress.", "I'll take care of it right away."],
+    words: ["I'll","take","care","of","it"]
   },
   {
-    phrase: "I'm going over the requirements one more time",
-    verb: "going over", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ the requirements one more time", correct: "going over", wrong: ["going through","going around","going under"] },
-    choice: { correct: 2, options: ["I go over the requirements right now","I'm went over the requirements","I'm going over the requirements one more time","I going over the requirements"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","reviewing"] }
+    phrase: "Give me a second",
+    translation: "🇧🇷 Me dá um segundo / Espera um momento",
+    category: "Everyday",
+    tip: "Use when you need a <strong>brief pause</strong> before responding or acting.",
+    fillSentence: "___ me a second",
+    fillAnswer: "Give",
+    fillOptions: ["Give","Gave","Giving","Gives"],
+    choiceCorrect: 0,
+    choiceOptions: ["Give me a second","Gave me a second","Giving me a second","Gives me a second"],
+    swapHighlight: "a second",
+    swapCorrect: 1,
+    swapOptions: ["forever","a moment","never","a year"],
+    dialogue: [
+      { who: "A", text: "Can you answer this right now?" },
+      { who: "B", text: "Give me a second — I'm just finishing something.", highlight: "Give me a second" },
+      { who: "A", text: "Sure, no rush." }
+    ],
+    similar: ["Hold on a moment", "One sec", "Give me a minute"],
+    examples: ["Give me a second to think about it.", "Give me a second, I'll be right back.", "Give me a second to check that."],
+    words: ["Give","me","a","second"]
   },
   {
-    phrase: "I'm making adjustments based on the feedback",
-    verb: "making", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ adjustments based on the feedback", correct: "making", wrong: ["make","made","makes"] },
-    choice: { correct: 0, options: ["I'm making adjustments based on the feedback","I making adjustments","I'm made adjustments","I'm makes adjustments"] },
-    swap:   { correct: 1, options: ["broke","implementing","slept","ran"] }
+    phrase: "That makes total sense",
+    translation: "🇧🇷 Isso faz todo sentido / Entendo completamente",
+    category: "Understanding",
+    tip: "Use to show you <strong>fully understand and agree</strong> with what someone explained.",
+    fillSentence: "That makes ___ sense",
+    fillAnswer: "total",
+    fillOptions: ["total","totally","totaling","much"],
+    choiceCorrect: 2,
+    choiceOptions: ["That makes totally sense","That making total sense","That makes total sense","That made total sense right now"],
+    swapHighlight: "total",
+    swapCorrect: 0,
+    swapOptions: ["perfect","no","zero","little"],
+    dialogue: [
+      { who: "A", text: "We should test it before launching, not after." },
+      { who: "B", text: "That makes total sense. Why didn't I think of that?", highlight: "makes total sense" },
+      { who: "A", text: "Better late than never!" }
+    ],
+    similar: ["That totally makes sense", "I totally get it", "That's completely logical"],
+    examples: ["That makes total sense given the context.", "That makes total sense — thanks for explaining.", "Oh, that makes total sense now!"],
+    words: ["That","makes","total","sense"]
   },
   {
-    phrase: "I'm brainstorming ideas for the new campaign",
-    verb: "brainstorming", category: "Explaining Actions", icon: "🔍",
-    fill:   { blank: "I'm ___ ideas for the new campaign", correct: "brainstorming", wrong: ["brainstorm","brainstormed","brainstorms"] },
-    choice: { correct: 3, options: ["I brainstorming ideas for the new campaign","I'm brainstormed ideas","I'm brainstorm ideas","I'm brainstorming ideas for the new campaign"] },
-    swap:   { correct: 2, options: ["broke","slept","generating","ran"] }
-  },
-
-  // ── Meetings & Calls ──
-  {
-    phrase: "Let me walk you through what I've been working on",
-    verb: "walk you through", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "Let me ___ what I've been working on", correct: "walk you through", wrong: ["walk through you","walked you through","walks you through"] },
-    choice: { correct: 1, options: ["Let me walked you through what I've been working on","Let me walk you through what I've been working on","Let me walks you through","Let me walking you through what I've been working on"] },
-    swap:   { correct: 0, options: ["show you","broke","slept","ran"] }
-  },
-  {
-    phrase: "I'd like to share my screen to show you the progress",
-    verb: "share", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "I'd like to ___ my screen to show you the progress", correct: "share", wrong: ["sharing","shared","shares"] },
-    choice: { correct: 2, options: ["I'd like sharing my screen","I'd like shared my screen","I'd like to share my screen to show you the progress","I'd likes to share my screen"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","present"] }
-  },
-  {
-    phrase: "Can we schedule a quick call to discuss this?",
-    verb: "schedule", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "Can we ___ a quick call to discuss this?", correct: "schedule", wrong: ["scheduling","scheduled","schedules"] },
-    choice: { correct: 0, options: ["Can we schedule a quick call to discuss this?","Can we scheduling a quick call?","Can we scheduled a quick call?","Can we schedules a quick call?"] },
-    swap:   { correct: 1, options: ["broke","set up","slept","ran"] }
+    phrase: "I appreciate it",
+    translation: "🇧🇷 Eu agradeço / Valorizo muito isso",
+    category: "Gratitude",
+    tip: "A warm and genuine way to <strong>thank someone</strong> for something they did.",
+    fillSentence: "I ___ it",
+    fillAnswer: "appreciate",
+    fillOptions: ["appreciate","appreciated","appreciating","appreciates"],
+    choiceCorrect: 1,
+    choiceOptions: ["I appreciating it","I appreciate it","I appreciated it right now","I appreciates it"],
+    swapHighlight: "appreciate",
+    swapCorrect: 3,
+    swapOptions: ["ignore","hate","forget","value"],
+    dialogue: [
+      { who: "A", text: "I stayed late to help you finish the project." },
+      { who: "B", text: "I really appreciate it. You didn't have to do that.", highlight: "appreciate it" },
+      { who: "A", text: "Happy to help!" }
+    ],
+    similar: ["Thank you so much", "I'm so grateful", "I can't thank you enough"],
+    examples: ["I really appreciate it — thank you.", "I appreciate it more than you know.", "I appreciate it, that was very kind."],
+    words: ["I","appreciate","it"]
   },
   {
-    phrase: "I wanted to follow up on our last conversation",
-    verb: "follow up on", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "I wanted to ___ our last conversation", correct: "follow up on", wrong: ["follow on","follow up","follow through on"] },
-    choice: { correct: 3, options: ["I want to follow up on our last conversation right now","I wanted follow up on our last conversation","I wanted to followed up on our last conversation","I wanted to follow up on our last conversation"] },
-    swap:   { correct: 2, options: ["broke","slept","revisit","ran"] }
+    phrase: "I'll figure it out",
+    translation: "🇧🇷 Eu vou resolver / Vou dar um jeito",
+    category: "Confidence",
+    tip: "Use to show <strong>confidence</strong> that you'll find a solution, even if you don't know how yet.",
+    fillSentence: "I'll ___ it out",
+    fillAnswer: "figure",
+    fillOptions: ["figure","figured","figuring","figures"],
+    choiceCorrect: 0,
+    choiceOptions: ["I'll figure it out","I'll figured it out","I'll figuring it out","I'll figures it out"],
+    swapHighlight: "figure it out",
+    swapCorrect: 2,
+    swapOptions: ["ignore it","give up","work it out","forget it"],
+    dialogue: [
+      { who: "A", text: "Do you know how to fix this?" },
+      { who: "B", text: "Not yet, but I'll figure it out. Give me some time.", highlight: "figure it out" },
+      { who: "A", text: "I know you will. You always do." }
+    ],
+    similar: ["I'll work it out", "I'll find a way", "I'll sort it out"],
+    examples: ["Don't worry — I'll figure it out.", "I'll figure it out as I go.", "I'll figure it out eventually."],
+    words: ["I'll","figure","it","out"]
   },
   {
-    phrase: "I'll send over the updated files after this call",
-    verb: "send over", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "I'll ___ the updated files after this call", correct: "send over", wrong: ["send through","send across","sends over"] },
-    choice: { correct: 1, options: ["I'll sends over the updated files","I'll send over the updated files after this call","I'll sent over the updated files","I'll sending over the updated files"] },
-    swap:   { correct: 0, options: ["share","broke","slept","ran"] }
+    phrase: "That works for me",
+    translation: "🇧🇷 Isso funciona pra mim / Topo / Pode ser",
+    category: "Agreement",
+    tip: "Use to <strong>agree with a suggestion</strong>, plan, or time that someone proposes.",
+    fillSentence: "That ___ for me",
+    fillAnswer: "works",
+    fillOptions: ["works","work","worked","working"],
+    choiceCorrect: 3,
+    choiceOptions: ["That work for me","That working for me","That worked for me right now","That works for me"],
+    swapHighlight: "works for me",
+    swapCorrect: 1,
+    swapOptions: ["bothers me","suits me","scares me","confuses me"],
+    dialogue: [
+      { who: "A", text: "How about we meet at 3pm on Thursday?" },
+      { who: "B", text: "That works for me! I'll put it in my calendar.", highlight: "works for me" },
+      { who: "A", text: "Perfect. See you then." }
+    ],
+    similar: ["That suits me fine", "Works for me", "I'm good with that"],
+    examples: ["Friday at noon? That works for me.", "That works for me — let's do it.", "Any time after 2pm works for me."],
+    words: ["That","works","for","me"]
   },
   {
-    phrase: "Could you give me some feedback on this direction?",
-    verb: "give", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "Could you ___ me some feedback on this direction?", correct: "give", wrong: ["giving","gave","gives"] },
-    choice: { correct: 2, options: ["Could you giving me some feedback?","Could you gave me some feedback?","Could you give me some feedback on this direction?","Could you gives me some feedback?"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","share"] }
+    phrase: "I'm doing my best",
+    translation: "🇧🇷 Estou fazendo o meu melhor",
+    category: "Effort",
+    tip: "Use to let someone know you're <strong>trying as hard as you can</strong>.",
+    fillSentence: "I'm doing my ___",
+    fillAnswer: "best",
+    fillOptions: ["best","better","good","well"],
+    choiceCorrect: 1,
+    choiceOptions: ["I'm doing my better","I'm doing my best","I'm do my best","I'm did my best right now"],
+    swapHighlight: "my best",
+    swapCorrect: 0,
+    swapOptions: ["everything I can","nothing","the minimum","my worst"],
+    dialogue: [
+      { who: "A", text: "The results aren't great this quarter." },
+      { who: "B", text: "I know. But I'm doing my best with what we have.", highlight: "doing my best" },
+      { who: "A", text: "I see that. Keep going." }
+    ],
+    similar: ["I'm trying my hardest", "I'm giving it my all", "I'm putting in the effort"],
+    examples: ["I'm doing my best to finish on time.", "I'm doing my best — I promise.", "I'm doing my best, but it's not easy."],
+    words: ["I'm","doing","my","best"]
   },
   {
-    phrase: "Let me pull up the file so we can review it together",
-    verb: "pull up", category: "Meetings & Calls", icon: "📞",
-    fill:   { blank: "Let me ___ the file so we can review it together", correct: "pull up", wrong: ["pull out","pull over","pull down"] },
-    choice: { correct: 0, options: ["Let me pull up the file so we can review it together","Let me pulled up the file","Let me pulls up the file","Let me pulling up the file"] },
-    swap:   { correct: 1, options: ["broke","open","slept","ran"] }
-  },
-
-  // ── Progress Updates ──
-  {
-    phrase: "I've just finished the first round of revisions",
-    verb: "finished", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I've just ___ the first round of revisions", correct: "finished", wrong: ["finish","finishing","finishes"] },
-    choice: { correct: 3, options: ["I've just finish the first round","I've just finishing the first round","I just finished the first round right now","I've just finished the first round of revisions"] },
-    swap:   { correct: 2, options: ["broke","slept","completed","ran"] }
-  },
-  {
-    phrase: "I'm about halfway through the design exploration",
-    verb: "halfway through", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I'm about ___ the design exploration", correct: "halfway through", wrong: ["half through","halfway in","halfway at"] },
-    choice: { correct: 1, options: ["I'm about half through the design exploration","I'm about halfway through the design exploration","I'm about halfway in the design exploration","I'm about halfway at the design exploration"] },
-    swap:   { correct: 0, options: ["midway through","broke","slept","ran"] }
-  },
-  {
-    phrase: "I should have this ready by end of day",
-    verb: "have", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I should ___ this ready by end of day", correct: "have", wrong: ["had","has","having"] },
-    choice: { correct: 2, options: ["I should had this ready by end of day","I should has this ready","I should have this ready by end of day","I should having this ready"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","finish"] }
+    phrase: "Just to be clear",
+    translation: "🇧🇷 Só para deixar claro / Para esclarecer",
+    category: "Communication",
+    tip: "Use before explaining something to <strong>avoid misunderstandings</strong>.",
+    fillSentence: "Just to be ___",
+    fillAnswer: "clear",
+    fillOptions: ["clear","clearly","clearing","cleared"],
+    choiceCorrect: 2,
+    choiceOptions: ["Just to be clearly","Just be clear","Just to be clear","Just to being clear"],
+    swapHighlight: "clear",
+    swapCorrect: 3,
+    swapOptions: ["confusing","vague","unclear","transparent"],
+    dialogue: [
+      { who: "A", text: "So the deadline is flexible, right?" },
+      { who: "B", text: "Just to be clear — the deadline is fixed. No extensions.", highlight: "Just to be clear" },
+      { who: "A", text: "Got it. I understand now." }
+    ],
+    similar: ["To make it clear", "Let me clarify", "I want to make sure we're on the same page"],
+    examples: ["Just to be clear, this is not optional.", "Just to be clear — who's responsible for this?", "Just to be clear, I'm not complaining."],
+    words: ["Just","to","be","clear"]
   },
   {
-    phrase: "I just wrapped up the discovery phase",
-    verb: "wrapped up", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I just ___ the discovery phase", correct: "wrapped up", wrong: ["wrap up","wrapping up","wraps up"] },
-    choice: { correct: 0, options: ["I just wrapped up the discovery phase","I just wrap up the discovery phase","I just wrapping up the discovery phase","I just wraps up the discovery phase"] },
-    swap:   { correct: 1, options: ["broke","completed","slept","ran"] }
+    phrase: "That's a good point",
+    translation: "🇧🇷 Isso é um bom ponto / Faz sentido",
+    category: "Opinion",
+    tip: "Use to <strong>acknowledge</strong> when someone makes a valid or insightful observation.",
+    fillSentence: "That's a ___ point",
+    fillAnswer: "good",
+    fillOptions: ["good","well","great","better"],
+    choiceCorrect: 0,
+    choiceOptions: ["That's a good point","That's a well point","That's a better point right now","That's good a point"],
+    swapHighlight: "good",
+    swapCorrect: 2,
+    swapOptions: ["terrible","boring","great","no"],
+    dialogue: [
+      { who: "A", text: "Maybe we should test with real users before launching." },
+      { who: "B", text: "That's a good point. We should definitely do that.", highlight: "good point" },
+      { who: "A", text: "I'll set it up for next week." }
+    ],
+    similar: ["You make a good point", "Fair point", "You're right about that"],
+    examples: ["That's a good point — I hadn't thought of that.", "That's a good point. Let's reconsider.", "That's a good point about the timing."],
+    words: ["That's","a","good","point"]
   },
   {
-    phrase: "I'm on track to deliver everything by Friday",
-    verb: "on track to", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I'm ___ deliver everything by Friday", correct: "on track to", wrong: ["in track to","on track for","on tracks to"] },
-    choice: { correct: 3, options: ["I'm in track to deliver everything by Friday","I'm on track for deliver everything","I'm on tracks to deliver everything","I'm on track to deliver everything by Friday"] },
-    swap:   { correct: 2, options: ["broke","slept","set to","ran"] }
+    phrase: "Let me know if you need anything",
+    translation: "🇧🇷 Me avisa se precisar de algo",
+    category: "Kindness",
+    tip: "A friendly offer of help — shows you're <strong>available and willing</strong> to support someone.",
+    fillSentence: "Let me know if you ___ anything",
+    fillAnswer: "need",
+    fillOptions: ["need","needed","needs","needing"],
+    choiceCorrect: 1,
+    choiceOptions: ["Let me know if you needed anything","Let me know if you need anything","Let me know if you needs anything","Let me knows if you need anything"],
+    swapHighlight: "need",
+    swapCorrect: 0,
+    swapOptions: ["require","ignore","forget","leave"],
+    dialogue: [
+      { who: "A", text: "Thanks for your help today." },
+      { who: "B", text: "No problem! Let me know if you need anything else.", highlight: "need anything" },
+      { who: "A", text: "Will do. Thanks again!" }
+    ],
+    similar: ["I'm here if you need me", "Feel free to reach out", "Don't hesitate to ask"],
+    examples: ["Let me know if you need anything — I'm around.", "Let me know if you need anything before the deadline.", "Let me know if you need anything at all."],
+    words: ["Let","me","know","if","you","need","anything"]
   },
   {
-    phrase: "I've hit a small roadblock but I'm working through it",
-    verb: "hit", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I've ___ a small roadblock but I'm working through it", correct: "hit", wrong: ["hitting","hitted","hits"] },
-    choice: { correct: 1, options: ["I've hitting a small roadblock","I've hit a small roadblock but I'm working through it","I've hitted a small roadblock","I've hits a small roadblock"] },
-    swap:   { correct: 0, options: ["run into","broke","slept","ran"] }
-  },
-  {
-    phrase: "I'm making great progress on the redesign",
-    verb: "making", category: "Progress Updates", icon: "📊",
-    fill:   { blank: "I'm ___ great progress on the redesign", correct: "making", wrong: ["make","made","makes"] },
-    choice: { correct: 2, options: ["I making great progress","I'm made great progress","I'm making great progress on the redesign","I'm makes great progress"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","seeing"] }
-  },
-
-  // ── Problem Solving ──
-  {
-    phrase: "I'm trying to narrow down the options",
-    verb: "narrow down", category: "Problem Solving", icon: "💡",
-    fill:   { blank: "I'm trying to ___ the options", correct: "narrow down", wrong: ["narrow up","narrow out","narrows down"] },
-    choice: { correct: 0, options: ["I'm trying to narrow down the options","I'm trying narrow down the options","I'm try to narrow down the options","I'm tried to narrow down the options"] },
-    swap:   { correct: 1, options: ["broke","simplify","slept","ran"] }
-  },
-  {
-    phrase: "I'm exploring different ways to approach this",
-    verb: "exploring", category: "Problem Solving", icon: "💡",
-    fill:   { blank: "I'm ___ different ways to approach this", correct: "exploring", wrong: ["explore","explored","explores"] },
-    choice: { correct: 3, options: ["I explore different ways right now","I'm explore different ways","I'm explored different ways","I'm exploring different ways to approach this"] },
-    swap:   { correct: 2, options: ["broke","slept","testing","ran"] }
-  },
-  {
-    phrase: "I think we need to rethink our approach here",
-    verb: "rethink", category: "Problem Solving", icon: "💡",
-    fill:   { blank: "I think we need to ___ our approach here", correct: "rethink", wrong: ["rethinking","rethought","rethinks"] },
-    choice: { correct: 1, options: ["I think we need rethink our approach","I think we need to rethink our approach here","I think we needed to rethink right now","I thinks we need to rethink our approach"] },
-    swap:   { correct: 0, options: ["reconsider","broke","slept","ran"] }
-  },
-  {
-    phrase: "I'm stuck on this part and need some help",
-    verb: "stuck on", category: "Problem Solving", icon: "💡",
-    fill:   { blank: "I'm ___ this part and need some help", correct: "stuck on", wrong: ["stuck in","stuck at","stuck with"] },
-    choice: { correct: 2, options: ["I'm stuck in this part","I'm stuck at this part","I'm stuck on this part and need some help","I'm stuck with this part"] },
-    swap:   { correct: 3, options: ["broke","slept","ran","blocked by"] }
-  },
-  {
-    phrase: "I need to figure out why this isn't working",
-    verb: "figure out", category: "Problem Solving", icon: "💡",
-    fill:   { blank: "I need to ___ why this isn't working", correct: "figure out", wrong: ["figure in","figure up","figuring out"] },
-    choice: { correct: 0, options: ["I need to figure out why this isn't working","I need figure out why this isn't working","I need to figured out why this isn't working","I need to figures out why this isn't working"] },
-    swap:   { correct: 1, options: ["broke","understand","slept","ran"] }
+    phrase: "I totally forgot",
+    translation: "🇧🇷 Eu esqueci completamente / Me esqueci",
+    category: "Everyday",
+    tip: "Use to <strong>honestly admit</strong> that something completely slipped your mind.",
+    fillSentence: "I totally ___",
+    fillAnswer: "forgot",
+    fillOptions: ["forgot","forget","forgotten","forgetting"],
+    choiceCorrect: 3,
+    choiceOptions: ["I totally forget","I totally forgetting","I totally forgotten","I totally forgot"],
+    swapHighlight: "totally",
+    swapCorrect: 2,
+    swapOptions: ["slightly","never","completely","always"],
+    dialogue: [
+      { who: "A", text: "Did you send that email I asked about?" },
+      { who: "B", text: "Oh no — I totally forgot! I'll send it right now.", highlight: "totally forgot" },
+      { who: "A", text: "No worries, just whenever you can." }
+    ],
+    similar: ["It completely slipped my mind", "I blanked on that", "I didn't remember at all"],
+    examples: ["I totally forgot about the meeting — I'm so sorry.", "I totally forgot your birthday. Happy belated!", "I totally forgot to reply to that message."],
+    words: ["I","totally","forgot"]
   }
 ];
 
-// ──────────────────────────────────────────────────────────
-// CONSTANTS & STATE
-// ──────────────────────────────────────────────────────────
-const SESSION_SIZE  = 5;
-const TIMER_SECONDS = 5 * 60;
-const QUIZ_TYPES    = ['fill','choice','swap'];
+// ─────────────────────────────────────────────────────────
+// ACTIVITY SEQUENCE
+// ─────────────────────────────────────────────────────────
+// Intro plays once. Then the other activities cycle indefinitely.
+const ALL_ACTIVITIES    = ['intro','fill','context','choice','scramble','swap','similar','examples'];
+const REPEAT_FROM       = 1; // skip 'intro' when cycling
 
-const MESSAGES = {
-  perfect:  { emoji: '🏆', title: 'Flawless!',      sub: 'You crushed it. Every single one correct.' },
-  great:    { emoji: '⭐', title: 'Great job!',      sub: 'Almost perfect. Keep it up!' },
-  good:     { emoji: '👍', title: 'Solid!',          sub: 'Good work — practice makes perfect.' },
-  ok:       { emoji: '💪', title: 'Keep going!',     sub: "You're building up. Every session counts." },
-  keep:     { emoji: '📚', title: 'Keep practicing!', sub: "Don't stop — improvement takes time." }
-};
-
+// ─────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────
 const state = {
-  session:       [],
-  current:       0,
-  results:       [],
-  score:         0,
-  streak:        parseInt(localStorage.getItem('phraseup_streak') || '0'),
-  timeLeft:      TIMER_SECONDS,
+  phrases:      [],
+  phraseIdx:    0,
+  actIdx:       0,
+  timeLeft:     5 * 60,
   timerInterval: null,
-  answered:      false
+  streak:       parseInt(localStorage.getItem('phraseup_streak') || '0'),
+  scramble:     { bank: [], sentence: [], checking: false }
 };
 
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 // HELPERS
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -299,21 +478,18 @@ function shuffle(arr) {
   return a;
 }
 
-function shuffleWithIndex(items, correctIdx) {
-  const indexed = items.map((text, i) => ({ text, isCorrect: i === correctIdx }));
-  return shuffle(indexed);
+function highlightText(text, highlight) {
+  if (!highlight) return text;
+  const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
 }
 
-function saveStreak() {
-  localStorage.setItem('phraseup_streak', state.streak);
-}
-
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 // TIMER
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 function startTimer() {
   clearInterval(state.timerInterval);
-  state.timeLeft = TIMER_SECONDS;
+  state.timeLeft = 5 * 60;
   updateTimerUI();
 
   state.timerInterval = setInterval(() => {
@@ -321,7 +497,7 @@ function startTimer() {
     updateTimerUI();
     if (state.timeLeft <= 0) {
       clearInterval(state.timerInterval);
-      startSession();
+      advancePhrase();
     }
   }, 1000);
 }
@@ -329,423 +505,410 @@ function startTimer() {
 function updateTimerUI() {
   const m = Math.floor(state.timeLeft / 60);
   const s = state.timeLeft % 60;
-  document.getElementById('timerLabel').textContent =
-    `${m}:${s.toString().padStart(2, '0')}`;
+  const label = `${m}:${s.toString().padStart(2, '0')}`;
+  document.getElementById('countdownLabel').textContent = label;
 
-  const r = 17;
-  const circ = 2 * Math.PI * r;
-  const progress = state.timeLeft / TIMER_SECONDS;
-  const ring = document.getElementById('timerRing');
-  ring.style.strokeDashoffset = circ * (1 - progress);
+  const fill  = document.getElementById('timerBarFill');
+  const chip  = document.getElementById('countdownChip');
+  const pct   = (state.timeLeft / (5 * 60)) * 100;
+  fill.style.width = pct + '%';
 
-  const wrap = document.getElementById('timerWrap');
-  ring.classList.remove('urgent', 'warning');
-  wrap.classList.remove('urgent');
+  fill.classList.remove('warning','urgent');
+  chip.classList.remove('warning','urgent');
 
   if (state.timeLeft <= 60) {
-    ring.classList.add('urgent');
-    wrap.classList.add('urgent');
+    fill.classList.add('urgent'); chip.classList.add('urgent');
   } else if (state.timeLeft <= 120) {
-    ring.classList.add('warning');
+    fill.classList.add('warning'); chip.classList.add('warning');
   }
 }
 
-// ──────────────────────────────────────────────────────────
-// SESSION
-// ──────────────────────────────────────────────────────────
-function generateSession() {
-  const picked = shuffle(PHRASES).slice(0, SESSION_SIZE);
-  const typeRotation = shuffle([...QUIZ_TYPES, 'fill', 'choice']); // 5 types for 5 questions
-  return picked.map((phrase, i) => ({
-    phrase,
-    type: typeRotation[i % typeRotation.length]
-  }));
+// ─────────────────────────────────────────────────────────
+// PHRASE CYCLING
+// ─────────────────────────────────────────────────────────
+function advancePhrase() {
+  const overlay = document.getElementById('newPhraseOverlay');
+  overlay.classList.add('show');
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    state.phraseIdx = (state.phraseIdx + 1) % state.phrases.length;
+    state.actIdx    = 0;
+    renderPhrasePanel();
+    renderActivity();
+    startTimer();
+  }, 1400);
 }
 
-function startSession() {
-  state.session  = generateSession();
-  state.current  = 0;
-  state.results  = [];
-  state.score    = 0;
-  state.answered = false;
-  renderDots();
-  renderQuestion();
+// ─────────────────────────────────────────────────────────
+// PHRASE PANEL
+// ─────────────────────────────────────────────────────────
+function renderPhrasePanel() {
+  const p = state.phrases[state.phraseIdx];
+  const num = state.phraseIdx + 1;
+  document.getElementById('phraseNum').textContent    = `Phrase ${num} of ${state.phrases.length}`;
+  document.getElementById('phraseCat').textContent    = p.category;
+  document.getElementById('phraseMain').textContent   = `"${p.phrase}"`;
+  document.getElementById('phraseTranslation').textContent = p.translation;
 }
 
-// ──────────────────────────────────────────────────────────
-// DOTS
-// ──────────────────────────────────────────────────────────
-function renderDots() {
-  const container = document.getElementById('dots');
-  container.innerHTML = '';
-  for (let i = 0; i < SESSION_SIZE; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === state.current ? ' active' : '');
-    d.id = `dot-${i}`;
-    container.appendChild(d);
+// ─────────────────────────────────────────────────────────
+// NEXT ACTIVITY
+// ─────────────────────────────────────────────────────────
+document.getElementById('nextBtn').addEventListener('click', () => {
+  state.actIdx++;
+  if (state.actIdx >= ALL_ACTIVITIES.length) {
+    state.actIdx = REPEAT_FROM;
+  }
+  renderActivity();
+});
+
+// ─────────────────────────────────────────────────────────
+// RENDER ACTIVITY
+// ─────────────────────────────────────────────────────────
+function renderActivity() {
+  const p    = state.phrases[state.phraseIdx];
+  const type = ALL_ACTIVITIES[state.actIdx];
+  const card = document.getElementById('activityCard');
+  card.innerHTML = '';
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = '';
+
+  switch (type) {
+    case 'intro':    renderIntro(p, card);    break;
+    case 'fill':     renderFill(p, card);     break;
+    case 'context':  renderContext(p, card);  break;
+    case 'choice':   renderChoice(p, card);   break;
+    case 'scramble': renderScramble(p, card); break;
+    case 'swap':     renderSwap(p, card);     break;
+    case 'similar':  renderSimilar(p, card);  break;
+    case 'examples': renderExamples(p, card); break;
   }
 }
 
-function updateDots() {
-  for (let i = 0; i < SESSION_SIZE; i++) {
-    const d = document.getElementById(`dot-${i}`);
-    if (!d) continue;
-    d.className = 'dot';
-    if (i < state.results.length) {
-      d.classList.add(state.results[i] ? 'done-correct' : 'done-wrong');
-    } else if (i === state.current) {
-      d.classList.add('active');
-    }
-  }
+// ─────────────────────────────────────────────────────────
+// 1. INTRO
+// ─────────────────────────────────────────────────────────
+function renderIntro(p, card) {
+  card.innerHTML = `
+    <div class="act-badge act-intro">✦ Read & understand</div>
+    <div class="phrase-box">
+      <p class="phrase-box-text">"${p.phrase}"</p>
+    </div>
+    <div class="intro-tip">
+      💡 <strong>When to use:</strong> ${p.tip}
+    </div>
+    <div class="list-items">
+      <div class="list-item"><div class="list-dot"></div><span>${p.translation}</span></div>
+    </div>
+  `;
 }
 
-// ──────────────────────────────────────────────────────────
-// CATEGORY PILL
-// ──────────────────────────────────────────────────────────
-function updateCategoryPill(category) {
-  document.getElementById('catPill').textContent = category;
-}
-
-// ──────────────────────────────────────────────────────────
-// RENDER QUESTION
-// ──────────────────────────────────────────────────────────
-function renderQuestion() {
-  state.answered = false;
-  const item = state.session[state.current];
-  updateCategoryPill(item.phrase.category);
-  updateDots();
-
-  const main = document.getElementById('main');
-  main.innerHTML = '';
-
-  let card;
-  switch (item.type) {
-    case 'fill':   card = buildFillCard(item.phrase);   break;
-    case 'choice': card = buildChoiceCard(item.phrase); break;
-    case 'swap':   card = buildSwapCard(item.phrase);   break;
-  }
-
-  main.appendChild(card);
-}
-
-// ──────────────────────────────────────────────────────────
-// BUILD: FILL THE GAP
-// ──────────────────────────────────────────────────────────
-function buildFillCard(phrase) {
-  const { fill } = phrase;
-  const options = shuffle([
-    { text: fill.correct, correct: true },
-    ...fill.wrong.map(w => ({ text: w, correct: false }))
+// ─────────────────────────────────────────────────────────
+// 2. FILL THE GAP
+// ─────────────────────────────────────────────────────────
+function renderFill(p, card) {
+  const opts = shuffle([
+    { text: p.fillAnswer, correct: true },
+    ...p.fillOptions.filter(o => o !== p.fillAnswer).map(o => ({ text: o, correct: false }))
   ]);
 
-  const card = document.createElement('div');
-  card.className = 'quiz-card';
-
   card.innerHTML = `
-    <div class="quiz-badge badge-fill">
-      <span class="badge-icon">✏️</span>
-      Fill the Gap
-    </div>
-    <p class="quiz-instruction">Tap the word that correctly completes the sentence</p>
+    <div class="act-badge act-fill">✏️ Fill the gap</div>
+    <p class="act-instruction">Tap the word that correctly completes the sentence.</p>
     <div class="phrase-box">
-      <p class="phrase-text">${fill.blank.replace('___', '<span class="blank">___</span>')}</p>
+      <p class="phrase-box-text">${p.fillSentence.replace('___', '<span class="gap">___</span>')}</p>
     </div>
-    <div class="options-grid" id="optionsGrid"></div>
+    <div class="opts-grid" id="optsGrid"></div>
     <div class="feedback" id="feedback"></div>
-    <div class="phrase-reveal" id="phraseReveal">
-      💬 <strong>${phrase.phrase}</strong>
-    </div>
-    <button class="continue-btn" id="continueBtn">
-      Continue <span class="continue-arrow">→</span>
-    </button>
   `;
 
-  const grid = card.querySelector('#optionsGrid');
-  options.forEach(opt => {
+  const grid = card.querySelector('#optsGrid');
+  opts.forEach(opt => {
     const btn = document.createElement('button');
-    btn.className = 'option-btn';
+    btn.className = 'opt-btn';
     btn.textContent = opt.text;
-    btn.dataset.correct = opt.correct;
-    btn.addEventListener('click', () => handleOptionAnswer(btn, card, phrase, opt.correct));
+    btn.addEventListener('click', () => handleOpt(btn, grid, opt.correct, card));
     grid.appendChild(btn);
   });
-
-  card.querySelector('#continueBtn').addEventListener('click', nextQuestion);
-  return card;
 }
 
-// ──────────────────────────────────────────────────────────
-// BUILD: BEST PHRASE (choice)
-// ──────────────────────────────────────────────────────────
-function buildChoiceCard(phrase) {
-  const { choice } = phrase;
-  const letters = ['A','B','C','D'];
-  const options = choice.options.map((text, i) => ({ text, correct: i === choice.correct }));
-
-  const card = document.createElement('div');
-  card.className = 'quiz-card';
+// ─────────────────────────────────────────────────────────
+// 3. CONTEXT (dialogue)
+// ─────────────────────────────────────────────────────────
+function renderContext(p, card) {
+  const lines = p.dialogue.map((line, i) => {
+    const isMe   = i % 2 === 1;
+    const cls    = isMe ? 'me' : 'them';
+    const who    = isMe ? 'You' : 'Them';
+    const text   = line.highlight ? highlightText(line.text, line.highlight) : line.text;
+    return `
+      <div class="dialogue-line ${cls}">
+        <span class="d-who">${who}</span>
+        <div class="d-bubble">${text}</div>
+      </div>
+    `;
+  }).join('');
 
   card.innerHTML = `
-    <div class="quiz-badge badge-choice">
-      <span class="badge-icon">🔤</span>
-      Best Phrase
-    </div>
-    <p class="quiz-instruction">Which option sounds most natural in English?</p>
+    <div class="act-badge act-context">💬 In context</div>
+    <p class="act-instruction">See how the phrase is used in a real conversation.</p>
+    <div class="dialogue">${lines}</div>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────
+// 4. CHOICE (best phrase)
+// ─────────────────────────────────────────────────────────
+function renderChoice(p, card) {
+  const letters  = ['A','B','C','D'];
+  const opts     = p.choiceOptions.map((text, i) => ({ text, correct: i === p.choiceCorrect }));
+
+  card.innerHTML = `
+    <div class="act-badge act-choice">🔤 Best phrase</div>
+    <p class="act-instruction">Which option sounds most natural in English?</p>
     <div class="choice-list" id="choiceList"></div>
     <div class="feedback" id="feedback"></div>
-    <button class="continue-btn" id="continueBtn">
-      Continue <span class="continue-arrow">→</span>
-    </button>
   `;
 
   const list = card.querySelector('#choiceList');
-  options.forEach((opt, i) => {
+  opts.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.dataset.correct = opt.correct;
-    btn.innerHTML = `<span class="choice-letter">${letters[i]}</span><span>${opt.text}</span>`;
-    btn.addEventListener('click', () => handleOptionAnswer(btn, card, phrase, opt.correct));
+    btn.innerHTML = `<span class="choice-ltr">${letters[i]}</span><span>${opt.text}</span>`;
+    btn.addEventListener('click', () => handleChoice(btn, list, opt.correct, card));
     list.appendChild(btn);
   });
-
-  card.querySelector('#continueBtn').addEventListener('click', nextQuestion);
-  return card;
 }
 
-// ──────────────────────────────────────────────────────────
-// BUILD: VERB SWAP
-// ──────────────────────────────────────────────────────────
-function buildSwapCard(phrase) {
-  const { swap } = phrase;
-  const options = swap.options.map((text, i) => ({ text, correct: i === swap.correct }));
-  const shuffledOpts = shuffle(options);
-
-  const highlighted = phrase.phrase.replace(
-    phrase.verb,
-    `<mark>${phrase.verb}</mark>`
-  );
-
-  const card = document.createElement('div');
-  card.className = 'quiz-card';
+// ─────────────────────────────────────────────────────────
+// 5. SCRAMBLE
+// ─────────────────────────────────────────────────────────
+function renderScramble(p, card) {
+  const correct = p.words;
+  state.scramble = { bank: shuffle([...correct]), sentence: [], checking: false };
 
   card.innerHTML = `
-    <div class="quiz-badge badge-swap">
-      <span class="badge-icon">🔄</span>
-      Verb Swap
-    </div>
-    <p class="quiz-instruction">Which verb can replace the highlighted one?</p>
-    <div class="phrase-box">
-      <p class="phrase-text">${highlighted}</p>
-    </div>
-    <div class="options-grid" id="optionsGrid"></div>
+    <div class="act-badge act-scramble">🔀 Unscramble</div>
+    <p class="act-instruction">Tap the words in the correct order to rebuild the phrase.</p>
+    <div class="scramble-sentence" id="scrambleSentence"></div>
+    <div class="scramble-bank" id="scrambleBank"></div>
     <div class="feedback" id="feedback"></div>
-    <div class="phrase-reveal" id="phraseReveal"></div>
-    <button class="continue-btn" id="continueBtn">
-      Continue <span class="continue-arrow">→</span>
-    </button>
+    <button class="scramble-check-btn" id="checkBtn" style="display:none">Check ✓</button>
   `;
 
-  const grid = card.querySelector('#optionsGrid');
-  shuffledOpts.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.textContent = opt.text;
-    btn.dataset.correct = opt.correct;
-    btn.addEventListener('click', () => handleSwapAnswer(btn, card, phrase, opt));
-    grid.appendChild(btn);
-  });
-
-  card.querySelector('#continueBtn').addEventListener('click', nextQuestion);
-  return card;
+  renderScrambleState(card, correct);
 }
 
-// ──────────────────────────────────────────────────────────
-// ANSWER HANDLING
-// ──────────────────────────────────────────────────────────
-function handleOptionAnswer(btn, card, phrase, isCorrect) {
-  if (state.answered) return;
-  state.answered = true;
+function renderScrambleState(card, correct) {
+  const sentEl = card.querySelector('#scrambleSentence');
+  const bankEl = card.querySelector('#scrambleBank');
+  const checkBtn = card.querySelector('#checkBtn');
 
-  const allBtns = card.querySelectorAll('.option-btn, .choice-btn');
-  allBtns.forEach(b => {
-    b.disabled = true;
-    if (b.dataset.correct === 'true') b.classList.add('correct');
+  sentEl.innerHTML = '';
+  bankEl.innerHTML = '';
+
+  state.scramble.sentence.forEach((word, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'word-chip in-sentence';
+    chip.textContent = word;
+    chip.addEventListener('click', () => {
+      state.scramble.bank.push(word);
+      state.scramble.sentence.splice(i, 1);
+      renderScrambleState(card, correct);
+    });
+    sentEl.appendChild(chip);
   });
 
-  if (!isCorrect) btn.classList.add('wrong');
-
-  showFeedback(card, isCorrect, phrase);
-  recordResult(isCorrect);
-}
-
-function handleSwapAnswer(btn, card, phrase, opt) {
-  if (state.answered) return;
-  state.answered = true;
-
-  const allBtns = card.querySelectorAll('.option-btn');
-  allBtns.forEach(b => {
-    b.disabled = true;
-    if (b.dataset.correct === 'true') b.classList.add('correct');
+  state.scramble.bank.forEach((word, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'word-chip';
+    chip.textContent = word;
+    chip.addEventListener('click', () => {
+      state.scramble.sentence.push(word);
+      state.scramble.bank.splice(i, 1);
+      renderScrambleState(card, correct);
+    });
+    bankEl.appendChild(chip);
   });
 
-  if (!opt.correct) btn.classList.add('wrong');
-
-  const reveal = card.querySelector('#phraseReveal');
-  if (reveal && opt.correct) {
-    const newPhrase = phrase.phrase.replace(phrase.verb, opt.text);
-    reveal.innerHTML = `💬 With this verb: <strong>"${newPhrase}"</strong>`;
-    reveal.classList.add('visible');
-  }
-
-  showFeedback(card, opt.correct, phrase);
-  recordResult(opt.correct);
+  checkBtn.style.display = state.scramble.bank.length === 0 ? 'block' : 'none';
+  checkBtn.onclick = () => checkScramble(card, correct);
 }
 
-function showFeedback(card, isCorrect, phrase) {
-  const fb = card.querySelector('#feedback');
-  if (!fb) return;
+function checkScramble(card, correct) {
+  const isCorrect = JSON.stringify(state.scramble.sentence) === JSON.stringify(correct);
+  const sentEl    = card.querySelector('#scrambleSentence');
+  const fb        = card.querySelector('#feedback');
+
+  sentEl.classList.remove('correct-border','wrong-border');
+  sentEl.classList.add(isCorrect ? 'correct-border' : 'wrong-border');
 
   if (isCorrect) {
-    fb.className = 'feedback visible correct';
-    fb.innerHTML = `<span class="feedback-icon">✅</span><span>Correct! Great job.</span>`;
-    state.score++;
+    fb.className = 'feedback show correct';
+    fb.innerHTML = `<span>✅</span><span>Perfect! That's the correct order.</span>`;
     state.streak++;
   } else {
-    fb.className = 'feedback visible wrong';
-    fb.innerHTML = `<span class="feedback-icon">❌</span><span>Not quite. The correct answer is highlighted in green.</span>`;
+    fb.className = 'feedback show wrong';
+    fb.innerHTML = `<span>❌</span><span>Not quite. Correct: <strong>${correct.join(' ')}</strong></span>`;
+    state.streak = 0;
+  }
+  localStorage.setItem('phraseup_streak', state.streak);
+  document.getElementById('streakNum').textContent = state.streak;
+}
+
+// ─────────────────────────────────────────────────────────
+// 6. SWAP
+// ─────────────────────────────────────────────────────────
+function renderSwap(p, card) {
+  const opts = shuffle(
+    p.swapOptions.map((text, i) => ({ text, correct: i === p.swapCorrect }))
+  );
+
+  const highlighted = p.phrase.replace(
+    new RegExp(`(${p.swapHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'),
+    '<mark>$1</mark>'
+  );
+
+  card.innerHTML = `
+    <div class="act-badge act-swap">🔄 Verb swap</div>
+    <p class="act-instruction">Which word or expression can replace the highlighted part?</p>
+    <div class="phrase-box">
+      <p class="phrase-box-text">${highlighted}</p>
+    </div>
+    <div class="opts-grid" id="optsGrid"></div>
+    <div class="feedback" id="feedback"></div>
+  `;
+
+  const grid = card.querySelector('#optsGrid');
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt.text;
+    btn.addEventListener('click', () => handleOpt(btn, grid, opt.correct, card));
+    grid.appendChild(btn);
+  });
+}
+
+// ─────────────────────────────────────────────────────────
+// 7. SIMILAR PHRASES
+// ─────────────────────────────────────────────────────────
+function renderSimilar(p, card) {
+  const items = p.similar.map(s =>
+    `<div class="list-item"><div class="list-dot"></div><span>"${s}"</span></div>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="act-badge act-similar">🔗 Similar phrases</div>
+    <p class="act-instruction">These expressions carry a similar meaning. Good to know!</p>
+    <div class="list-items">${items}</div>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────
+// 8. EXAMPLES
+// ─────────────────────────────────────────────────────────
+function renderExamples(p, card) {
+  const items = p.examples.map(ex => {
+    const highlighted = ex.replace(
+      new RegExp(`(${p.phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'),
+      '<mark>$1</mark>'
+    );
+    return `<div class="list-item"><div class="list-dot"></div><span>${highlighted}</span></div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="act-badge act-examples">📖 More examples</div>
+    <p class="act-instruction">See the phrase used in different situations.</p>
+    <div class="list-items">${items}</div>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────
+// ANSWER HANDLERS
+// ─────────────────────────────────────────────────────────
+function handleOpt(btn, grid, isCorrect, card) {
+  const allBtns = grid.querySelectorAll('.opt-btn');
+  if ([...allBtns].some(b => b.disabled)) return;
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === (isCorrect ? btn.textContent : '') && !isCorrect) return;
+  });
+
+  allBtns.forEach(b => { if (b.dataset.correct === 'true') {} });
+
+  // Mark correct ones green, wrong one red
+  allBtns.forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.streak++;
+  } else {
+    btn.classList.add('wrong');
+    // find and highlight correct
+    allBtns.forEach(b => {
+      if (b !== btn) {
+        // We need to know which is correct — store on dataset
+      }
+    });
     state.streak = 0;
   }
 
-  saveStreak();
+  showFeedback(card, isCorrect);
+  localStorage.setItem('phraseup_streak', state.streak);
   document.getElementById('streakNum').textContent = state.streak;
-
-  const continueBtn = card.querySelector('#continueBtn');
-  if (continueBtn) continueBtn.classList.add('visible');
-
-  const phraseReveal = card.querySelector('#phraseReveal');
-  if (phraseReveal && !phraseReveal.classList.contains('visible')) {
-    phraseReveal.innerHTML = `💬 Full phrase: <strong>"${phrase.phrase}"</strong>`;
-    phraseReveal.classList.add('visible');
-  }
 }
 
-function recordResult(isCorrect) {
-  state.results.push(isCorrect);
-  updateDots();
-}
+function handleChoice(btn, list, isCorrect, card) {
+  const allBtns = list.querySelectorAll('.choice-btn');
+  if ([...allBtns].some(b => b.disabled)) return;
 
-// ──────────────────────────────────────────────────────────
-// NAVIGATION
-// ──────────────────────────────────────────────────────────
-function nextQuestion() {
-  state.current++;
-  if (state.current >= SESSION_SIZE) {
-    showSummary();
+  allBtns.forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.streak++;
   } else {
-    renderQuestion();
+    btn.classList.add('wrong');
+    state.streak = 0;
   }
+
+  showFeedback(card, isCorrect);
+  localStorage.setItem('phraseup_streak', state.streak);
+  document.getElementById('streakNum').textContent = state.streak;
 }
 
-// ──────────────────────────────────────────────────────────
-// SUMMARY
-// ──────────────────────────────────────────────────────────
-function showSummary() {
-  updateDots();
-
-  const ratio = state.score / SESSION_SIZE;
-  let msg;
-  if (ratio === 1)        msg = MESSAGES.perfect;
-  else if (ratio >= 0.8)  msg = MESSAGES.great;
-  else if (ratio >= 0.6)  msg = MESSAGES.good;
-  else if (ratio >= 0.4)  msg = MESSAGES.ok;
-  else                    msg = MESSAGES.keep;
-
-  const r = 45;
-  const circ = 2 * Math.PI * r;
-  const strokeColor = ratio === 1 ? 'var(--green)' : ratio >= 0.6 ? 'var(--accent)' : 'var(--amber)';
-  const offset = circ * (1 - ratio);
-
-  const card = document.createElement('div');
-  card.className = 'summary-card';
-  card.innerHTML = `
-    <div class="summary-emoji">${msg.emoji}</div>
-    <div>
-      <p class="summary-title">${msg.title}</p>
-      <p class="summary-subtitle">${msg.sub}</p>
-    </div>
-    <div class="score-ring">
-      <svg class="score-svg" viewBox="0 0 100 100">
-        <circle class="score-track" cx="50" cy="50" r="${r}" stroke-width="8"/>
-        <circle class="score-fill" cx="50" cy="50" r="${r}"
-          stroke="${strokeColor}"
-          stroke-dasharray="${circ}"
-          stroke-dashoffset="${circ}"
-          id="scoreFill"/>
-      </svg>
-      <div class="score-inner">
-        <span class="score-num">${state.score}/${SESSION_SIZE}</span>
-        <span class="score-denom">correct</span>
-      </div>
-    </div>
-    <div class="summary-stats">
-      <div class="stat-box">
-        <span class="stat-val">${state.streak}</span>
-        <span class="stat-lbl">🔥 Streak</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-val">${Math.round(ratio * 100)}%</span>
-        <span class="stat-lbl">Accuracy</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-val">${formatTime(TIMER_SECONDS - state.timeLeft)}</span>
-        <span class="stat-lbl">Time used</span>
-      </div>
-    </div>
-    <button class="new-session-btn" id="newSessionBtn">New Session →</button>
-  `;
-
-  document.getElementById('main').innerHTML = '';
-  document.getElementById('main').appendChild(card);
-
-  // Animate score ring
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const fill = document.getElementById('scoreFill');
-      if (fill) fill.style.strokeDashoffset = offset;
-    });
-  });
-
-  card.querySelector('#newSessionBtn').addEventListener('click', () => {
-    startSession();
-    startTimer();
-  });
+function showFeedback(card, isCorrect) {
+  const fb = card.querySelector('#feedback');
+  if (!fb) return;
+  fb.className = `feedback show ${isCorrect ? 'correct' : 'wrong'}`;
+  fb.innerHTML = isCorrect
+    ? `<span>✅</span><span>Correct! Well done.</span>`
+    : `<span>❌</span><span>Not quite — the correct answer is highlighted.</span>`;
 }
 
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-// ──────────────────────────────────────────────────────────
-// STATUS BAR CLOCK
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
+// CLOCK
+// ─────────────────────────────────────────────────────────
 function updateClock() {
   const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes().toString().padStart(2, '0');
-  const el = document.getElementById('sbTime');
-  if (el) el.textContent = `${h}:${m}`;
+  const el  = document.getElementById('sbTime');
+  if (el) el.textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
 }
 
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 // INIT
-// ──────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────
 function init() {
+  state.phrases = shuffle(PHRASES);
+  state.phraseIdx = 0;
+  state.actIdx    = 0;
+
   document.getElementById('streakNum').textContent = state.streak;
   updateClock();
   setInterval(updateClock, 30000);
-  startSession();
+
+  renderPhrasePanel();
+  renderActivity();
   startTimer();
 }
 

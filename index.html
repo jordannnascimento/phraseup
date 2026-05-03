@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PhraseUp – Daily English</title>
+  <title>PhraseUp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- 5-minute countdown bar -->
+  <div class="timer-bar"><div class="timer-bar-fill" id="timerBarFill"></div></div>
+
   <div class="shell">
 
-    <!-- iOS status bar aesthetic -->
     <div class="statusbar">
       <span class="sb-time" id="sbTime">9:41</span>
       <div class="sb-icons">
@@ -37,7 +40,7 @@
 
     <div class="app">
 
-      <!-- HEADER -->
+      <!-- Header -->
       <header class="header">
         <div class="brand">
           <div class="brand-gem">
@@ -49,29 +52,45 @@
           <span class="brand-name">PhraseUp</span>
         </div>
         <div class="header-right">
-          <div class="streak-chip">
-            <span class="streak-fire">🔥</span>
-            <span class="streak-num" id="streakNum">0</span>
+          <div class="countdown-chip" id="countdownChip">
+            <span class="countdown-icon">⏱</span>
+            <span id="countdownLabel">5:00</span>
           </div>
-          <div class="timer-wrap" id="timerWrap">
-            <svg class="timer-svg" viewBox="0 0 44 44">
-              <circle class="timer-track" cx="22" cy="22" r="17"/>
-              <circle class="timer-ring" cx="22" cy="22" r="17" id="timerRing"/>
-            </svg>
-            <span class="timer-label" id="timerLabel">5:00</span>
+          <div class="streak-chip">
+            <span>🔥</span>
+            <span id="streakNum">0</span>
           </div>
         </div>
       </header>
 
-      <!-- SESSION PROGRESS -->
-      <div class="session-bar">
-        <div class="dots" id="dots"></div>
-        <span class="cat-pill" id="catPill">Work &amp; Projects</span>
+      <!-- Phrase panel (stays fixed while activities change) -->
+      <div class="phrase-panel" id="phrasePanel">
+        <div class="phrase-meta">
+          <span class="phrase-num" id="phraseNum">Phrase 1</span>
+          <span class="phrase-cat" id="phraseCat">Everyday</span>
+        </div>
+        <p class="phrase-main" id="phraseMain">Loading...</p>
+        <p class="phrase-translation" id="phraseTranslation">...</p>
       </div>
 
-      <!-- MAIN -->
-      <main class="main" id="main"></main>
+      <!-- Activity area -->
+      <div class="activity-wrap">
+        <div class="activity-card" id="activityCard"></div>
+      </div>
 
+      <!-- Next button -->
+      <button class="next-btn" id="nextBtn">
+        Next activity <span class="next-arrow">→</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- New phrase overlay -->
+  <div class="new-phrase-overlay" id="newPhraseOverlay">
+    <div class="overlay-content">
+      <div class="overlay-emoji">✨</div>
+      <p class="overlay-text">New phrase!</p>
     </div>
   </div>
 
